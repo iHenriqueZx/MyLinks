@@ -1,0 +1,40 @@
+.app-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    background-color: #1a1a1a;
+    margin: auto;
+    min-width: 300px;
+    max-width: 400px;
+    gap: 15px;
+}
+#border{
+    display: flex;
+    margin-top: 27px;
+    background-color: rgba(49, 49, 49, 0.555);
+    width: 378px;
+    height: 76px;
+    border-radius: 13px;
+    justify-content: space-around;
+    margin-bottom: 27px;
+}
+#perfil{
+    margin-left: 27px;
+    margin-top: 20px;
+    border: 3px solid rgba(255, 0, 150, 0.9);
+}
+.texts{
+    margin-top: 20px;
+    margin-right: 90px;
+    display: flex;
+    flex-direction: column;
+}
+h1, h2{
+    margin-block-end: 0;
+    margin-block-start: 0;
+}
+#marca{
+    margin-top: 10px;
+}
