@@ -1,0 +1,263 @@
+<app-header
+  [language]="language"
+  [languages]="languages"
+  (languageChange)="changeLanguage($event)">
+</app-header>
+
+<main class="container">
+
+  <section class="intro">
+    <div class="social-links">
+
+      <button class="social-card instagram" (click)="openLink('https://www.instagram.com/inovatozx')">
+        <span class="social-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="3" y="3" width="18" height="18" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="18" cy="6" r="1" fill="currentColor"/>
+          </svg>
+        </span>
+        <span>
+          <strong>{{ t('instagram') }}</strong>
+          <small>inovatozx</small>
+        </span>
+        <span class="external">↗</span>
+      </button>
+
+      <button class="social-card discord" (click)="copyDiscord()">
+        <span class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19.7 5.2A18.5 18.5 0 0 0 15.2 4l-.5 1a16.8 16.8 0 0 0-5.4 0l-.5-1a18.5 18.5 0 0 0-4.5 1.2C1.5 9.4.7 13.5 1.1 17.5a18.2 18.2 0 0 0 5.5 2.8l1.2-2a11.7 11.7 0 0 1-1.9-.9l.5-.4a13.2 13.2 0 0 0 11.2 0l.5.4a11.7 11.7 0 0 1-1.9.9l1.2 2a18.2 18.2 0 0 0 5.5-2.8c.5-4.7-.8-8.7-3.2-12.3ZM8.8 14.9c-1.1 0-2-1-2-2.2s.9-2.2 2-2.2 2 1 2 2.2-.9 2.2-2 2.2Zm6.4 0c-1.1 0-2-1-2-2.2s.9-2.2 2-2.2 2 1 2 2.2-.9 2.2-2 2.2Z"/>
+          </svg>
+        </span>
+        <span>
+          <strong>Discord</strong>
+          <small>{{ discordMessage || t('copyDiscord') }}</small>
+        </span>
+        <span class="copy-icon">⧉</span>
+      </button>
+
+      <button class="social-card steam" (click)="openLink(steamUrl)">
+        <span class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2a10 10 0 0 0-9.9 11.4l5.4 2.2a3.2 3.2 0 0 1 1.8-.5l2.4-3.5a4.1 4.1 0 1 1 2.1 1.1l-2.3 3.4a3.2 3.2 0 0 1-6.2.8l-3.8-1.6A10 10 0 1 0 12 2Zm5.9 6.1a2.4 2.4 0 1 0 0 4.8 2.4 2.4 0 0 0 0-4.8ZM8.9 15.8a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 0 0 0-3.8Z"/>
+          </svg>
+        </span>
+        <span>
+          <strong>{{ t('steam') }}</strong>
+          <small>{{ t('steamDescription') }}</small>
+        </span>
+        <span class="external">↗</span>
+      </button>
+
+    </div>
+  </section>
+
+  <section class="games-section">
+
+    <div class="section-heading">
+      <div>
+        <span class="section-label">{{ t('funSection') }}</span>
+        <h2>{{ t('gamesTitle') }}</h2>
+      </div>
+      <span class="game-badge">{{ t('miniGames') }}</span>
+    </div>
+
+    <div class="games-carousel">
+
+      <button
+        class="carousel-arrow previous"
+        (click)="previousGame()"
+        [disabled]="activeGame === 0"
+        [attr.aria-label]="t('previousGame')">
+        &#10094;
+      </button>
+
+      <div class="carousel-content">
+
+        <article class="game-card snake-card" *ngIf="activeGame === 0">
+
+          <div class="game-card-heading">
+            <div>
+              <span class="game-number">01 / {{ t('arcade') }}</span>
+              <h3>Snake <span>Game</span></h3>
+            </div>
+            <span class="game-icon">🐍</span>
+          </div>
+
+          <div class="game-info">
+            <span>{{ t('score') }}</span>
+            <strong>{{ score }}</strong>
+          </div>
+
+          <div class="game-board">
+            <div
+              class="game-cell"
+              *ngFor="let cell of board"
+              [class.snake]="isSnake(cell)"
+              [class.food]="isFood(cell)">
+            </div>
+
+            <div class="game-overlay" *ngIf="!gameStarted">
+              <h4>{{ gameOver ? t('gameOver') : t('readyToPlay') }}</h4>
+              <p>
+                {{ gameOver ? t('scoreResult') + score : t('snakeDescription') }}
+              </p>
+              <button (click)="startGame()">
+                {{ gameOver ? t('playAgain') : t('startGame') }}
+              </button>
+            </div>
+          </div>
+
+          <div class="snake-controls">
+            <button (click)="changeDirection(-boardSize)" [attr.aria-label]="t('up')">↑</button>
+            <div>
+              <button (click)="changeDirection(-1)" [attr.aria-label]="t('left')">←</button>
+              <button (click)="changeDirection(boardSize)" [attr.aria-label]="t('down')">↓</button>
+              <button (click)="changeDirection(1)" [attr.aria-label]="t('right')">→</button>
+            </div>
+          </div>
+
+          <div class="game-footer">
+            <span>{{ t('snakeInstructions') }}</span>
+            <span>{{ t('record') }}: {{ bestScore }}</span>
+          </div>
+
+        </article>
+
+        <article class="game-card memory-card" *ngIf="activeGame === 1">
+
+          <div class="game-card-heading">
+            <div>
+              <span class="game-number">02 / {{ t('memory') }}</span>
+              <h3>{{ t('memoryTitle') }}</h3>
+            </div>
+            <span class="game-icon">🧠</span>
+          </div>
+
+          <div class="memory-info">
+            <span>{{ t('moves') }} <strong>{{ memoryMoves }}</strong></span>
+            <span>{{ t('pairs') }} <strong>{{ memoryMatches }}/8</strong></span>
+          </div>
+
+          <div class="memory-board">
+            <button
+              class="memory-tile"
+              *ngFor="let card of memoryCards; let i = index"
+              [class.revealed]="card.revealed || card.matched"
+              [class.matched]="card.matched"
+              [disabled]="card.matched || card.revealed || memoryLocked"
+              (click)="flipMemoryCard(i)">
+              {{ card.revealed || card.matched ? card.symbol : '?' }}
+            </button>
+          </div>
+
+          <div class="memory-message">
+            <span *ngIf="!memoryWon">{{ t('findPairs') }}</span>
+            <span *ngIf="memoryWon">🎉 {{ t('memoryWon') }}</span>
+          </div>
+
+          <button class="secondary-button" (click)="startMemoryGame()">
+            {{ t('restart') }}
+          </button>
+
+        </article>
+
+        <article class="game-card reaction-card" *ngIf="activeGame === 2">
+
+          <div class="game-card-heading">
+            <div>
+              <span class="game-number">03 / {{ t('reaction') }}</span>
+              <h3>{{ t('reactionTitle') }}</h3>
+            </div>
+            <span class="game-icon">⚡</span>
+          </div>
+
+          <div class="reaction-info">
+            <span>{{ t('bestTime') }}</span>
+            <strong>{{ bestReaction !== null ? bestReaction + ' ms' : '--' }}</strong>
+          </div>
+
+          <button
+            class="reaction-area"
+            [class.waiting]="reactionStatus === 'waiting'"
+            [class.ready]="reactionStatus === 'ready'"
+            [class.result]="reactionStatus === 'result'"
+            [class.too-soon]="reactionStatus === 'early'"
+            (click)="reactionClick()">
+
+            <span *ngIf="reactionStatus === 'idle'">{{ t('clickToStart') }}</span>
+            <span *ngIf="reactionStatus === 'waiting'">{{ t('wait') }}</span>
+            <span *ngIf="reactionStatus === 'ready'">{{ t('clickNow') }}</span>
+            <span *ngIf="reactionStatus === 'result'">{{ reactionTime }} ms</span>
+            <span *ngIf="reactionStatus === 'early'">{{ t('tooEarly') }}</span>
+
+          </button>
+
+          <p class="reaction-description">
+            {{ t('reactionDescription') }}
+          </p>
+
+          <button class="secondary-button" (click)="startReactionTest()">
+            {{ reactionStatus === 'idle' ? t('startTest') : t('tryAgain') }}
+          </button>
+
+        </article>
+
+      </div>
+
+      <button
+        class="carousel-arrow next"
+        (click)="nextGame()"
+        [disabled]="activeGame === 2"
+        [attr.aria-label]="t('nextGame')">
+        &#10095;
+      </button>
+
+    </div>
+
+    <div class="carousel-indicators">
+      <button
+        *ngFor="let game of games; let i = index"
+        [class.active]="activeGame === i"
+        (click)="selectGame(i)"
+        [attr.aria-label]="t('selectGame') + ' ' + (i + 1)">
+      </button>
+    </div>
+
+    <div class="carousel-counter">
+      0{{ activeGame + 1 }} <span>/ 03</span>
+    </div>
+
+  </section>
+
+  <section class="spotify-section">
+
+    <div class="section-heading">
+      <div>
+        <span class="section-label">{{ t('playlist') }}</span>
+        <h2>{{ t('listening') }}</h2>
+      </div>
+      <span class="music-badge">♫ {{ t('music') }}</span>
+    </div>
+
+    <div class="spotify-card">
+      <iframe
+        src="https://open.spotify.com/embed/playlist/4efU6MocaxTerZn4TCVxI2?utm_source=generator&theme=0"
+        title="Spotify playlist"
+        width="100%"
+        height="500"
+        frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy">
+      </iframe>
+    </div>
+
+  </section>
+
+  <footer>
+    <span>© {{ currentYear }} Henrique Silva</span>
+    <span>{{ t('madeWith') }} <strong>{{ t('footerLove') }}</strong>.</span>
+  </footer>
+
+</main>

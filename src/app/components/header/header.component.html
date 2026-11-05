@@ -1,0 +1,79 @@
+<header class="app-header">
+  <div class="profile-card">
+
+    <div class="profile-image">
+      <img src="https://imgur.com/oJGct1b.png" alt="Henrique Silva">
+      <span class="online-indicator"></span>
+    </div>
+
+    <div class="texts">
+      <h1>Henrique Silva</h1>
+      <span>Developer <span class="separator">•</span> Designer</span>
+    </div>
+
+    <div class="header-actions">
+
+      <div class="language-selector">
+        <button
+          class="language-button"
+          type="button"
+          (click)="languageMenuOpen = !languageMenuOpen"
+          [attr.aria-expanded]="languageMenuOpen"
+          aria-label="Change language">
+
+          <svg class="language-globe" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M3 12h18"/>
+            <path d="M12 3a15 15 0 0 1 0 18"/>
+            <path d="M12 3a15 15 0 0 0 0 18"/>
+          </svg>
+
+          <span class="language-label">{{ currentLanguage.code.toUpperCase() }}</span>
+
+          <svg
+            class="language-chevron"
+            [class.open]="languageMenuOpen"
+            viewBox="0 0 12 12"
+            fill="none"
+            aria-hidden="true">
+            <path d="m2 4 4 4 4-4"/>
+          </svg>
+        </button>
+
+        <div class="language-menu" *ngIf="languageMenuOpen">
+
+          <div class="language-menu-heading">
+            <span>LANGUAGE</span>
+            <span>🌐</span>
+          </div>
+
+          <button
+            type="button"
+            *ngFor="let lang of languages"
+            [class.selected]="language === lang.code"
+            (click)="selectLanguage(lang.code)">
+
+            <span class="language-flag">{{ lang.flag }}</span>
+            <span class="language-name">{{ lang.label }}</span>
+
+            <svg
+              *ngIf="language === lang.code"
+              class="language-check"
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true">
+              <path d="m3 8 3.2 3.2L13 4.5"/>
+            </svg>
+          </button>
+
+        </div>
+      </div>
+
+      <img
+        class="brand"
+        src="https://imgur.com/unzdq22.png"
+        alt="Marca">
+
+    </div>
+  </div>
+</header>
